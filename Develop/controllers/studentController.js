@@ -7,17 +7,18 @@ const headCount = async (students) =>
     [
       {
         $group: {
-          _id: null,
-         first: { $total: '$type' },
-          last: { $total: '$type' },
-        github: { $total: '$type' },
+           _id: null,
+         students: { $sum: '$students' },
+        //   last: { $sum: '$students' },
+        // github: { $sum: '$students' },
         },
       },
     ]
 )
     .then((numberOfStudents) => numberOfStudents);
 
-// TODO: Create a function that executes the aggregate method on the Student model and will calculate the overall grade by using the $avg operator
+// TODO: Create a function that executes the aggregate method on 
+// the Student model and will calculate the overall grade by using the $avg operator
 const grade = async (studentId) =>
   Student.aggregate([
     {
@@ -25,6 +26,10 @@ const grade = async (studentId) =>
     },
     {
       // Your code here
+        $group: {
+           _id: null,
+         assignments: { $sum: '$assignments' },
+        },
     },
   ]);
 
