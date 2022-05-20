@@ -1,9 +1,20 @@
 const { Student, Course } = require('../models');
 
 // TODO: Create an aggregate function to get the number of students overall
-const headCount = async () =>
-  Student.aggregate()
+const headCount = async (students) =>
+  Student.aggregate(
     // Your code here
+    [
+      {
+        $group: {
+          _id: null,
+         first: { $total: '$type' },
+          last: { $total: '$type' },
+        github: { $total: '$type' },
+        },
+      },
+    ]
+)
     .then((numberOfStudents) => numberOfStudents);
 
 // TODO: Create a function that executes the aggregate method on the Student model and will calculate the overall grade by using the $avg operator
